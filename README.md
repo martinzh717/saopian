@@ -2,70 +2,54 @@
 
 **扫一遍，好片就出现。**
 
-本地视频 **划览预览（hover scrubbing）** 小工具：鼠标在素材上移动即可预览画面，方便从大量素材里挑出想要的场景。
+卡里两百条无人机、活动跟拍、课堂录屏。进剪辑软件一条条双击、拖进度条、关掉、再打开下一条——大半天过去，好镜头还没挑完。
 
-## 在线使用
+扫片不做时间线、不做成片。它只做一件事：让你在大量本地视频里**尽快看见画面**，把能用的镜头找出来。
 
-- 公开工作台：https://jishuba.cn/app/saopian/
-- 点右上角 **?** 可下载「扫片本机程序」，在本机打开目录、稳定扫片库（视频不出本机）
+公开工作台：https://jishuba.cn/app/saopian/
 
-## 文档地图
+## 谁会用
 
-| 文档 | 内容 |
-|------|------|
-| [PRODUCT.md](./PRODUCT.md) | 为什么做、为谁做、核心体验、路线图 |
-| [DESIGN.md](./DESIGN.md) | 视觉与动效规范（好看但不抢扫片） |
-| [docs/architecture.md](./docs/architecture.md) | 单机 → 云端+本机 的两阶段架构与 API 边界 |
-| [docs/distribution.md](./docs/distribution.md) | 最终用户便携包：下载 → 双击运行 |
-| [docs/tech-stack.md](./docs/tech-stack.md) | 技术选型：用什么、不用什么、原因 |
-| [AGENTS.md](./AGENTS.md) | 给后续协作者 / AI 的工作约定 |
+- 飞完一整个下午，存储卡里全是长镜、空镜，不知道哪几秒能进片。
+- 活动/课程素材按文件夹堆着，文件名看不出内容，只能靠播。
+- 硬盘里「待剪」越积越多，打开 Premiere / 剪映的成本太高，只想先过一遍。
 
-## 最终用户（无开发环境）
+片子始终在本机。公开页也可以拖入文件夹临时看；要按路径扫整库，下载右上角 **?** 里的本机程序。
 
-1. 打开 [扫片公开页](https://jishuba.cn/app/saopian/)（工作台，可拖入文件夹临时划览）。
-2. 需要按路径扫本机片库时：右上角 **?** → 下载对应系统的 zip → 解压 → 双击运行。
-3. 详见 [docs/distribution.md](./docs/distribution.md)。
+## 怎么用
 
-维护者打包 / 发布：
+1. 打开 [扫片](https://jishuba.cn/app/saopian/)，拖入文件夹；或运行本机程序后打开目录。
+2. 鼠标移到胶片带上的小画面，主预览立刻跟上；左右移动即划览时间。路过不停留不会误切正在看的片子。
+3. 想过完全库：点播放，倍速扫（默认 16×）。可开背景音乐、可把预览全屏。自动预览与音乐在全屏时照常。
 
-```bash
-pnpm package:portable   # 本机程序（不含 BGM）
-pnpm build:web          # 公开静态站（含 bgm/）
-pnpm deploy:web         # 发布到 jishuba.cn/app/saopian/
-```
+不打点、不导出。选词在这里，组句回你的剪辑软件。
 
-背景音乐文件只随公开站部署在 `https://jishuba.cn/app/saopian/bgm/`，不打进本机 zip；播放时直接请求该地址。
+本机程序说明：[docs/distribution.md](./docs/distribution.md)
 
-## 开发启动
+## 开发
 
 ```bash
 pnpm install
-pnpm dev
+pnpm dev          # http://127.0.0.1:8025
 ```
 
-浏览器打开 [http://127.0.0.1:8025](http://127.0.0.1:8025)
+```bash
+pnpm package:portable   # 本机 zip（不含 BGM）
+pnpm build:web          # 公开静态站
+pnpm deploy:web         # 发布到 jishuba.cn/app/saopian/
+```
 
-## 用法
+BGM 只放在 `https://jishuba.cn/app/saopian/bgm/`，播放时直接请求该地址。
 
-1. 在底部工具栏打开本地目录（或拖入文件夹）。
-2. 鼠标移到素材小画面即可在主预览查看，左右移动划览。
-3. 滚轮横向浏览更多素材；用缩略图大小滑块调整素材尺寸。
-4. 可启用背景音乐：随自动预览播放 / 暂停。
+| 文档 | 内容 |
+|------|------|
+| [PRODUCT.md](./PRODUCT.md) | 产品边界与功能 |
+| [DESIGN.md](./DESIGN.md) | 视觉与交互 |
+| [docs/architecture.md](./docs/architecture.md) | 架构 |
+| [docs/tech-stack.md](./docs/tech-stack.md) | 技术选型 |
+| [AGENTS.md](./AGENTS.md) | 协作者约定 |
 
-当前只提供素材浏览与划览，不包含选段、打点或保存片段功能。
-
-## 品牌与 SEO
-
-统一品牌文案在 `src/lib/brand.ts`：**扫片 · 扫一遍，好片就出现。**
-
-已配置页面标题、描述、Open Graph、Twitter 分享元信息、深色主题色、Web App Manifest、
-SVG/ICO favicon、Apple touch icon、应用图标和 1200×630 分享图片。
-
-本地工作台不设置 `SITE_URL` 时保持 noindex。公开站构建会写入正式站点地址。
-
-图标源：`public/brand/mark.svg`；分享图：`public/brand/share.png`。
-
-预览队列检查：`node --test tests/media-preview.test.mjs`。
+测试：`node --test tests/media-preview.test.mjs`
 
 ## License
 

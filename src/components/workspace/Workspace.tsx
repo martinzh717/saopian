@@ -7,6 +7,7 @@ import { useDirectoryDrop } from "./useDirectoryDrop";
 import { BRAND } from "@/lib/brand";
 import { useWorkspacePreferences } from "./useWorkspacePreferences";
 import { BackgroundMusicButton } from "./BackgroundMusicButton";
+import { PreviewFullscreenButton } from "./PreviewFullscreenButton";
 import { FolderBar } from "./FolderBar";
 import { LocalAppHelpButton } from "./LocalAppHelpButton";
 import { MediaList } from "./MediaList";
@@ -34,6 +35,7 @@ export function Workspace({ defaultMediaPath, initialBrowse, initialError = null
   const droppedDirectory = useRef<DroppedDirectory | null>(null);
   const [dropError, setDropError] = useState<string | null>(null);
   const previewVideoRef = useRef<HTMLVideoElement>(null);
+  const previewStageRef = useRef<HTMLElement>(null);
   const playerRef = useRef<ScrubPlayerHandle>(null);
   const [initialPreviewRatio, setInitialPreviewRatio] = useState(0);
   const [dirPath, setDirPath] = useState(
@@ -238,7 +240,7 @@ export function Workspace({ defaultMediaPath, initialBrowse, initialError = null
         </div>
       </header>
       <main className="workspace-grid">
-        <section className="preview-workspace" aria-label="素材预览">
+        <section ref={previewStageRef} className="preview-workspace" aria-label="素材预览">
           <ScrubPlayer previewVideoRef={previewVideoRef} initialRatio={initialPreviewRatio} ref={playerRef}
             key={selected?.path ?? "empty"} media={selected} autoPreview={autoPreview}
             playbackRate={playbackRate} onAdvance={nextMedia} onPlaybackBlocked={pauseAutoPreview}
@@ -270,6 +272,7 @@ export function Workspace({ defaultMediaPath, initialBrowse, initialError = null
                 <span className="playback-rate-value" aria-hidden="true">{playbackRate}×</span>
               </div>
               <BackgroundMusicButton autoPreview={autoPreview} />
+              <PreviewFullscreenButton targetRef={previewStageRef} />
             </div>
           } folderControl={
             <div className="flex items-center gap-1">

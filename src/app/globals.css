@@ -165,6 +165,32 @@ button:disabled { cursor: not-allowed; opacity: .4; }
   border-color: #666a72;
 }
 .preview-workspace { display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 16px 20px; }
+.preview-workspace:fullscreen,
+.preview-workspace:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background: #08090a;
+}
+.preview-workspace:fullscreen .player-layout,
+.preview-workspace:-webkit-full-screen .player-layout,
+.preview-workspace:fullscreen .preview-empty,
+.preview-workspace:-webkit-full-screen .preview-empty,
+.preview-workspace:fullscreen .video-stage,
+.preview-workspace:-webkit-full-screen .video-stage {
+  flex: 1;
+  min-height: 100%;
+  border-radius: 0;
+}
+.preview-workspace:fullscreen .preview-video,
+.preview-workspace:-webkit-full-screen .preview-video,
+.preview-workspace:fullscreen .preview-image,
+.preview-workspace:-webkit-full-screen .preview-image {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
 .preview-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 280px; padding: 24px; text-align: center; background: #0b0c0e; border-radius: 8px; }
 .preview-empty.is-attention { border: 1px solid #e8a84a44; background: #12110e; }
 .preview-empty-alert {
