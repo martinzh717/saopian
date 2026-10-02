@@ -3,25 +3,35 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --hostname 127.0.0.1 --port 8025",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "build:web": "node scripts/build-web.mjs",
+    "deploy:web": "node scripts/deploy-web.mjs",
+    "start": "next start --hostname 127.0.0.1 --port 8025",
+    "lint": "eslint",
+    "package:portable": "node scripts/package-portable.mjs",
+    "package:portable:mac": "node scripts/package-portable.mjs --platform darwin-arm64",
+    "package:portable:win": "node scripts/package-portable.mjs --platform win-x64",
+    "package:portable:full": "node scripts/package-portable.mjs --full"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.49.0",
+    "motion": "^13.4.6",
     "next": "16.3.8",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^22.20.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5.9.2"
   },
   "packageManager": "pnpm@11.5.3"
 }

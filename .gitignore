@@ -16,9 +16,11 @@
 # next.js
 /.next/
 /out/
+.web-build-stash/
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -39,3 +41,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# BGM mp3s are hosted on the public site only; keep repo light.
+# Maintainers: keep local copies under public/bgm/ for `pnpm build:web`.
+/public/bgm/*.mp3
